@@ -35,7 +35,7 @@ void DoublyLinkedList::appendRight(int value) {
 
 void DoublyLinkedList::remove(int value) {
     if(size == 0){
-        return;
+        throw EmptyList();
     }
 
     Node* curr = head->next;
@@ -47,10 +47,9 @@ void DoublyLinkedList::remove(int value) {
     if(curr != tail){
         curr->prev->next = curr->next;
         curr->next->prev = curr->prev;
+        delete curr;
+        size--;
     }
-
-    delete curr;
-    size--;
 }
 
 bool DoublyLinkedList::search(int value) {
@@ -65,7 +64,7 @@ bool DoublyLinkedList::search(int value) {
 
 int DoublyLinkedList::popLeft() {
     if(size == 0){
-        return -1;
+        throw EmptyList();
     }
 
     Node* temp = head->next;
@@ -81,7 +80,7 @@ int DoublyLinkedList::popLeft() {
 
 int DoublyLinkedList::popRight() {
     if(size == 0){
-        return -1;
+        throw EmptyList();
     }
 
     Node* temp = tail->prev;
@@ -97,7 +96,7 @@ int DoublyLinkedList::popRight() {
 
 int DoublyLinkedList::peekLeft() {
     if(size == 0){
-        return -1;
+        throw EmptyList();
     }
 
     return head->next->value;
@@ -126,4 +125,8 @@ void DoublyLinkedList::printList() {
     }
 
     std::cout << std::endl;
+}
+
+const char* EmptyList::what() const noexcept {
+    return "Error: list is empty";
 }

@@ -2,6 +2,13 @@
 #define DOUBLYLINKEDLIST_DOUBLYLINKEDLIST_H
 
 #include <iostream>
+#include <exception>
+
+class ListException: public std::exception{};
+
+class EmptyList: public ListException{
+    const char* what () const noexcept override;
+};
 
 class Node {
 public:
