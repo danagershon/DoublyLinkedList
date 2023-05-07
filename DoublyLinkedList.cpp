@@ -1,46 +1,52 @@
 #include "DoublyLinkedList.h"
 
-Node::Node(int value, Node *prev= nullptr, Node *next= nullptr)
-: value(value),prev(prev),next(next)
+template<typename T>
+Node<T>::Node(T data, Node *prev, Node *next)
+: data(data),prev(prev),next(next)
 {}
 
-DoublyLinkedList::DoublyLinkedList()
-: head(new Node(-1)),tail(new Node(-1)),size(0)
+template<typename T>
+DoublyLinkedList<T>::DoublyLinkedList()
+        : head(new Node<T>()),tail(new Node<T>()),size(0)
 {
     head->next = tail;
     tail->prev = head;
 }
 
-DoublyLinkedList::~DoublyLinkedList() {
+template<typename T>
+DoublyLinkedList<T>::~DoublyLinkedList() {
     while(head){
-        Node* temp = head;
+        Node<T>* temp = head;
         head = head->next;
         delete temp;
     }
 }
 
-void DoublyLinkedList::appendLeft(int value) {
-    Node* new_node = new Node(value,head,head->next);
+template<typename T>
+void DoublyLinkedList<T>::appendLeft(T data) {
+    Node<T>* new_node = new Node(data,head,head->next);
     head->next->prev = new_node;
     head->next = new_node;
     size++;
 }
 
-void DoublyLinkedList::appendRight(int value) {
-    Node* new_node = new Node(value,tail->prev,tail);
+template<typename T>
+void DoublyLinkedList<T>::appendRight(T data) {
+    Node<T>* new_node = new Node(data,tail->prev,tail);
     tail->prev->next = new_node;
     tail->prev = new_node;
     size++;
 }
 
-void DoublyLinkedList::remove(int value) {
+template<typename T>
+void DoublyLinkedList<T>::remove(T data) {
     if(size == 0){
         throw EmptyList();
     }
 
-    Node* curr = head->next;
+    Node<T>* curr = head->next;
 
-    while(curr != tail && curr->value != value){
+    while(curr != tail && curr->data != data){
         curr = curr->next;
     }
 
@@ -52,75 +58,82 @@ void DoublyLinkedList::remove(int value) {
     }
 }
 
-bool DoublyLinkedList::search(int value) {
-    Node* curr = head->next;
+template<typename T>
+bool DoublyLinkedList<T>::search(T data) {
+    Node<T>* curr = head->next;
 
-    while(curr != tail && curr->value != value){
+    while(curr != tail && curr->data != data){
         curr = curr->next;
     }
 
     return curr != tail;
 }
 
-int DoublyLinkedList::popLeft() {
+template<typename T>
+T DoublyLinkedList<T>::popLeft() {
     if(size == 0){
         throw EmptyList();
     }
 
-    Node* temp = head->next;
+    Node<T>* temp = head->next;
     head->next = temp->next;
     temp->next->prev = head;
 
-    int value = temp->value;
+    T data = temp->data;
     delete temp;
     size--;
 
-    return value;
+    return data;
 }
 
-int DoublyLinkedList::popRight() {
+template<typename T>
+T DoublyLinkedList<T>::popRight() {
     if(size == 0){
         throw EmptyList();
     }
 
-    Node* temp = tail->prev;
+    Node<T>* temp = tail->prev;
     temp->prev->next = tail;
     tail->prev = temp->prev;
 
-    int value = temp->value;
+    T data = temp->data;
     delete temp;
     size--;
 
-    return value;
+    return data;
 }
 
-int DoublyLinkedList::peekLeft() {
+template<typename T>
+T DoublyLinkedList<T>::peekLeft() {
     if(size == 0){
         throw EmptyList();
     }
 
-    return head->next->value;
+    return head->next->data;
 }
 
-int DoublyLinkedList::peekRight() {
+template<typename T>
+T DoublyLinkedList<T>::peekRight() {
     if(size == 0){
         return -1;
     }
 
-    return tail->prev->value;
+    return tail->prev->data;
 }
 
-int DoublyLinkedList::getSize() {
+template<typename T>
+int DoublyLinkedList<T>::getSize() {
     return size;
 }
 
-void DoublyLinkedList::printList() {
-    Node* curr = head->next;
+template<typename T>
+void DoublyLinkedList<T>::printList() {
+    Node<T>* curr = head->next;
 
     std::cout << "printing list:" << std::endl;
 
     while(curr != tail){
-        std::cout << curr->value << " ";
+        std::cout << curr->data << " ";
         curr = curr->next;
     }
 
@@ -130,3 +143,6 @@ void DoublyLinkedList::printList() {
 const char* EmptyList::what() const noexcept {
     return "Error: list is empty";
 }
+
+template class Node<int>;
+template class DoublyLinkedList<int>;

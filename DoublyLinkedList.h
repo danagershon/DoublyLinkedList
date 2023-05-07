@@ -10,33 +10,33 @@ class EmptyList: public ListException{
     const char* what () const noexcept override;
 };
 
-class Node {
+template <typename T = int> class Node {
 public:
-    int value;
+    T data;
     Node* prev;
     Node* next;
 
-    Node(int value,Node* prev,Node* next);
+    explicit Node(T data = T(), Node* prev=nullptr, Node* next= nullptr);
     ~Node() = default;
 };
 
-class DoublyLinkedList {
-    Node* head;
-    Node* tail;
+template <typename T = int> class DoublyLinkedList {
+    Node<T>* head;
+    Node<T>* tail;
     int size;
 
 public:
     DoublyLinkedList();
     ~DoublyLinkedList();
 
-    void appendLeft(int value);
-    void appendRight(int value);
-    void remove(int value);
-    bool search(int value);
-    int popLeft();
-    int popRight();
-    int peekLeft();
-    int peekRight();
+    void appendLeft(T data);
+    void appendRight(T data);
+    void remove(T data);
+    bool search(T data);
+    T popLeft();
+    T popRight();
+    T peekLeft();
+    T peekRight();
     int getSize();
     void printList();
 };
