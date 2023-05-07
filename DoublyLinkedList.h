@@ -38,7 +38,15 @@ public:
     T peekLeft();
     T peekRight();
     int getSize();
-    void printList();
+    friend std::ostream & operator << (std::ostream &out, const DoublyLinkedList<T> &list){
+        Node<T>* curr = list.head->next;
+        while(curr != list.tail){
+            out << curr->data << " ";
+            curr = curr->next;
+        }
+        out << std::endl;
+        return out;
+    }
 };
 
 

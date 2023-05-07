@@ -126,20 +126,6 @@ int DoublyLinkedList<T>::getSize() {
     return size;
 }
 
-template<typename T>
-void DoublyLinkedList<T>::printList() {
-    Node<T>* curr = head->next;
-
-    std::cout << "printing list:" << std::endl;
-
-    while(curr != tail){
-        std::cout << curr->data << " ";
-        curr = curr->next;
-    }
-
-    std::cout << std::endl;
-}
-
 const char* EmptyList::what() const noexcept {
     return "Error: list is empty";
 }
